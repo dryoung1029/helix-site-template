@@ -1,5 +1,5 @@
-# Build output
-dist/
+# Build output (root only — vendor/@jeldon/*/dist is the engine and IS committed)
+/dist/
 .astro/
 .wrangler/
 
