@@ -12,6 +12,7 @@ Say this, adjusted to what's already done (check `docs/PROGRESS.md` if it exists
 > - **/article** — write a new blog post in your voice. I research it, cite
 >   real sources, and you approve it before it goes live.
 > - **/publish** — put an approved post live.
+> - **/photos** — add photos of the gym. You upload through one link; I do the rest.
 > - **/competitors** — see how the other Corvallis gyms' websites compare and
 >   where you can beat them.
 > - **/reddit-ideas** — find the questions people are really asking about gyms

@@ -63,8 +63,8 @@ npm run test:contact -- <url>   # send a test through the live contact form
 
 ## Slash commands (the owner types these)
 
-`/setup` `/article` `/publish` `/competitors` `/reddit-ideas` `/audit` `/traffic`
-`/benchmark` `/launch` `/help`. Each lives in `.claude/commands/`. Start with `/help` if unsure.
+`/setup` `/article` `/publish` `/photos` `/competitors` `/reddit-ideas` `/audit`
+`/traffic` `/benchmark` `/launch` `/help`. Each lives in `.claude/commands/`. Start with `/help` if unsure.
 
 ## The standing directive
 

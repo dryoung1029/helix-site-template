@@ -26,7 +26,9 @@ You never need to open these files yourself.
 - **FAQ questions** → `src/content/faqs.json`.
 - **Blog articles** → one file per article in `src/content/articles/`.
   An article with `draft: true` is invisible to visitors.
-- **Photos** → the `public/photos/` folder. Upload through GitHub → Add file → Upload files.
+- **Photos** → type `/photos`. Claude gives you one link; you pick photos from
+  your phone or computer, tap Commit, say "done". Claude shrinks them, writes
+  the descriptions, and puts them on the right pages.
 - **Who you are, how you write, what the articles should sound like** →
   `jeldon.config.ts`. Claude fills this in during `/setup`.
 

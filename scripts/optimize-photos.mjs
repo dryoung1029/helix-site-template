@@ -4,17 +4,21 @@
  * Anything wider than 1600px is resized; everything becomes .webp. Originals
  * move to public/photos/originals/ (kept in git so nothing is lost).
  *
- *   npm run photos
+ *   npm run photos                 # all new photos in public/photos
+ *   npm run photos -- --square a.jpg b.jpg   # also center-crop these to 1:1 (coach headshots)
  */
 import { readdir, mkdir, rename, stat } from 'node:fs/promises';
 import { join, extname, basename } from 'node:path';
 import sharp from 'sharp';
 
 const DIR = 'public/photos';
+const args = process.argv.slice(2);
+const square = args.includes('--square');
+const only = args.filter((a) => !a.startsWith('--'));
 const ORIG = join(DIR, 'originals');
 await mkdir(ORIG, { recursive: true });
 
-const files = (await readdir(DIR)).filter((f) => /\.(jpe?g|png|webp|heic|tiff?)$/i.test(f));
+const files = (await readdir(DIR)).filter((f) => /\.(jpe?g|png|webp|heic|tiff?)$/i.test(f) && (!only.length || only.includes(f)));
 if (!files.length) {
   console.log(`No photos in ${DIR}/ yet.`);
   process.exit(0);
@@ -26,7 +30,10 @@ for (const f of files) {
   try {
     const img = sharp(src).rotate();
     const meta = await img.metadata();
-    await img.resize({ width: Math.min(meta.width ?? 1600, 1600), withoutEnlargement: true }).webp({ quality: 82 }).toFile(out + '.tmp');
+    const resized = square
+      ? img.resize({ width: 800, height: 800, fit: 'cover', position: 'attention', withoutEnlargement: false })
+      : img.resize({ width: Math.min(meta.width ?? 1600, 1600), withoutEnlargement: true });
+    await resized.webp({ quality: 82 }).toFile(out + '.tmp');
     await rename(src, join(ORIG, f));
     await rename(out + '.tmp', out);
     const after = (await stat(out)).size;

@@ -110,20 +110,10 @@ Commit "Setup: voice".
 ## Stage 5 — Photos and logo (10 minutes)
 
 The site works without photos, but photos of real people in her gym are the
-single biggest trust signal. She uploads through GitHub's website (no tools):
-
-> 1. Go to github.com and open your `helix-training-site` repository.
-> 2. Click the folder `public`, then `photos` (I'll create it if it's missing).
-> 3. Click **Add file** (top right) → **Upload files**.
-> 4. Drag in 5–10 photos: the gym floor, a class in progress, coaches, the
->    front door. Then click the green **Commit changes** button.
-> 5. Tell me the file names, or just say "done" and I'll look.
-
-`public/photos/` already exists. After upload run `npm run photos` (resizes
-anything over 1600px wide and re-encodes as WebP; originals move to
-`public/photos/originals/`), then place photos:
-hero (home), program pages (`heroImage`), coach `photo` fields, about page.
-Write descriptive `alt` text (what's in the picture, not keywords).
+single biggest trust signal. Run the `/photos` command here (read
+`.claude/commands/photos.md`): it gives her one GitHub upload link that works
+from her phone, and you do the resizing, alt text, and placement after she
+says "done".
 
 Ask if the logo file in `public/brand/logo-horizontal.webp` is current; if she
 has a better one (SVG or PNG on transparent background), same upload steps.
