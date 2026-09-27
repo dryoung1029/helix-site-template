@@ -1,6 +1,6 @@
 // Cloudflare Workers config. The site is static files plus one tiny server
 // route (/api/contact). Cloudflare's git integration runs `npm run build` and
-// then `npx wrangler deploy` on every push to main.
+// then `npm run deploy:cf` on every push to main.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "helix-training-site",

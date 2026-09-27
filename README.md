@@ -40,7 +40,7 @@ npm run traffic          # Search Console CSVs → report
 ## Deploy
 
 Cloudflare Workers, connected to this repo. Build command `npm run build`,
-deploy command `npx wrangler deploy`. Secrets (PushPress, Brevo, Turnstile)
+deploy command `npm run deploy:cf`. Secrets (PushPress, Brevo, Turnstile)
 live in the Cloudflare dashboard, never here. See `docs/ACCOUNTS.md`.
 
 ## Stack notes

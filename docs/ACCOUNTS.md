@@ -22,7 +22,7 @@ go in the chat.** They go straight into Cloudflare's secrets page.
 5. On the setup screen:
    - Project name: `helix-training-site`
    - Build command: `npm run build`
-   - Deploy command: `npx wrangler deploy`
+   - Deploy command: `npm run deploy:cf`
    - Leave the rest alone.
 6. Click **Save and Deploy**. A log scrolls for a minute or two. When it says
    **Success**, there's a link ending in `.workers.dev`. That's the practice

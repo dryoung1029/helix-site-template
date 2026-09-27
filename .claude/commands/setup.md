@@ -140,7 +140,7 @@ and find the equivalent. Summary:
 2. **Workers & Pages** → **Create** → **Import a repository** → Connect
    GitHub → pick `helix-training-site`.
 3. Settings on that screen: Project name `helix-training-site`; Build command
-   `npm run build`; Deploy command `npx wrangler deploy`. Click **Save and Deploy**.
+   `npm run build`; Deploy command `npm run deploy:cf`. Click **Save and Deploy**.
 4. Wait for the green check. She'll get a URL ending in `.workers.dev`.
    Ask her to paste it. Open it with WebFetch to confirm it's the site.
    Write it in `docs/PROGRESS.md`.
