@@ -10,6 +10,9 @@ Jason is with her.
 
 ## Before the call (you, alone)
 
+- Run `/benchmark`. Every dimension must be "new ≥ old". If any is behind,
+  fix it first; launch waits. Attach the scorecard to `docs/PROGRESS.md`.
+
 - `npm run check:site` — no errors. `npm run build` green. `/audit` mode B clean.
 - Confirm the contact form works on the `.workers.dev` URL (`npm run test:contact`).
 - Confirm `public/_redirects` covers every URL in `docs/OLD-URLS.md`.

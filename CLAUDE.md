@@ -64,7 +64,17 @@ npm run test:contact -- <url>   # send a test through the live contact form
 ## Slash commands (the owner types these)
 
 `/setup` `/article` `/publish` `/competitors` `/reddit-ideas` `/audit` `/traffic`
-`/launch` `/help`. Each lives in `.claude/commands/`. Start with `/help` if unsure.
+`/benchmark` `/launch` `/help`. Each lives in `.claude/commands/`. Start with `/help` if unsure.
+
+## The standing directive
+
+**The new site must be better than the old one in every way that can be
+measured, and never worse in any.** Speed, search hygiene, structured data,
+accessibility, content depth, citability, conversion paths, and honesty of
+copy. `/benchmark` measures old vs new and keeps a scorecard in
+`data/benchmark/`; `/launch` will not proceed while any dimension is behind.
+When a change would trade one dimension for another, say so and let the owner
+decide.
 
 ## Hard rules
 

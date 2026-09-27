@@ -18,6 +18,7 @@ Say this, adjusted to what's already done (check `docs/PROGRESS.md` if it exists
 >   and strength training, and turn them into article ideas.
 > - **/audit** — find weak spots on the site and fix the easy ones.
 > - **/traffic** — read your Google Search Console numbers and tell you what to do.
+> - **/benchmark** — score the new site against the old one, dimension by dimension.
 > - **/launch** — point helixtrain.com at the new site (with Jason on the call).
 >
 > Or just tell me what you want in normal words — "change Saturday hours to
