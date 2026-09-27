@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":disableDependencyDashboard"],
+  "schedule": ["before 6am on monday"],
+  "packageRules": [
+    {
+      "description": "Engine updates auto-merge on green CI once @jeldon/* is on npm. This trusts Jeldon's own CI; turn off automerge if that ever feels wrong.",
+      "matchPackageNames": ["/^@jeldon\\//"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Everything else: grouped, reviewed by a human.",
+      "matchPackageNames": ["*", "!/^@jeldon\\//"],
+      "groupName": "dependencies",
+      "automerge": false
+    }
+  ]
+}

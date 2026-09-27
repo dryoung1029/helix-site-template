@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProgramList from '../../components/ProgramList.astro';
+import { getPrograms } from '../../lib/content';
+import { crumbs } from '../../lib/seo';
+
+const programs = await getPrograms();
+const items = [{ name: 'Programs', url: '/programs/' }];
+---
+
+<BaseLayout
+  title="Programs — Personal Training, Group Strength, Over-50 Classes"
+  description="Five ways to train at Helix Training in Corvallis: personal training, small-group strength classes, Strength+ for over 50, the Strong Foundations beginner course, and drop-ins."
+  jsonLd={[crumbs(items)]}
+>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <PageHeader
+      title="Programs"
+      lede="One coaching philosophy, five ways to train. Every program starts with a movement assessment and scales to where you are today."
+    />
+    <ProgramList programs={programs} />
+    <section class="section">
+      <h2>Not sure which one?</h2>
+      <p>Book a free class. You'll meet a coach, do a scaled workout, and we'll tell you honestly which program fits — even if the answer is "start with Strong Foundations."</p>
+      <a class="btn btn--primary" href="/free-class/">Try a free class</a>
+    </section>
+  </div>
+</BaseLayout>

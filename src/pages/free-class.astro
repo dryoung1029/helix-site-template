@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FaqList from '../components/FaqList.astro';
+import { site } from '../../site.config';
+import { getFaqsFor } from '../lib/content';
+import { crumbs, faqJsonLd } from '../lib/seo';
+
+const faqs = await getFaqsFor('free-class');
+const items = [{ name: 'Free class', url: '/free-class/' }];
+const jsonLd = [crumbs(items), faqJsonLd(faqs.map((f) => f.data))].filter(Boolean) as Record<string, unknown>[];
+---
+
+<BaseLayout
+  title="Try a Free Class"
+  description="Your first class at Helix Training in Corvallis is free. Meet a coach, get a quick movement check, and take a scaled strength class. No experience needed, no sales pitch."
+  jsonLd={jsonLd}
+  hideFooterCta
+>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <div class="split" style="padding-block: var(--s2)">
+      <div>
+        <h1>Your first class is free.</h1>
+        <p class="lede">Whether you're a seasoned athlete or you've never set foot in a gym, this is your starting point.</p>
+        <ol class="how">
+          <li><strong>Register.</strong> Takes two minutes.</li>
+          <li><strong>Pick a class time.</strong> You'll be prompted to choose one after you register.</li>
+          <li><strong>Arrive a few minutes early.</strong> Check in and get a quick tour.</li>
+          <li><strong>Meet your coach.</strong> A short movement check and a chat about your history, then class.</li>
+        </ol>
+        <p>Afterward we sit down for a few minutes and go over the usual questions — how fit you need to be, what results to expect, how often to come, and membership options. Then you decide.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary btn--lg" href={site.pushpress.plans.freeClass}>Book my free class</a>
+          <a class="btn btn--ghost" href="/contact/">I have a question first</a>
+        </div>
+        <p class="muted" style="margin-top: var(--s0); font-size: var(--step--1)">Prefer to talk? Call <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>.</p>
+      </div>
+      <div>
+        <h2 style="font-size: var(--step-1)">Before you come</h2>
+        <FaqList faqs={faqs} />
+        <div class="notice" style="margin-top: var(--s1)">
+          <strong>{site.address.street}, {site.address.city}</strong><br />
+          {site.address.landmark}. <a href={site.address.mapsUrl} target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .how {
+    padding-left: 1.3em;
+    margin: var(--s0) 0 var(--s1);
+    max-width: var(--measure);
+  }
+  .how li + li {
+    margin-top: 0.4em;
+  }
+</style>

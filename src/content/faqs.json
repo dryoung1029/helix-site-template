@@ -1,0 +1,132 @@
+[
+  {
+    "id": "what-do-i-need-to-do-to-join-a-class",
+    "pages": [
+      "home",
+      "faq",
+      "free-class"
+    ],
+    "order": 10,
+    "question": "What do I need to do to join a class?",
+    "answer": "Book a free class on this site or call us. That's it. Everyone is welcome."
+  },
+  {
+    "id": "will-beginners-be-welcomed-here",
+    "pages": [
+      "home",
+      "faq",
+      "free-class"
+    ],
+    "order": 20,
+    "question": "Will beginners be welcomed here?",
+    "answer": "Yes. Helix is built around supporting each other, and beginners most of all."
+  },
+  {
+    "id": "how-long-are-classes",
+    "pages": [
+      "faq"
+    ],
+    "order": 30,
+    "question": "How long are classes?",
+    "answer": "About an hour, including a coached warm-up and cool-down."
+  },
+  {
+    "id": "do-you-have-programs-for-people-over-50",
+    "pages": [
+      "home",
+      "faq"
+    ],
+    "order": 40,
+    "question": "Do you have programs for people over 50?",
+    "answer": "Yes. Strength+ is designed for adults over 50 to build strength, balance, and mobility for everyday life."
+  },
+  {
+    "id": "is-there-a-long-term-commitment",
+    "pages": [
+      "faq",
+      "pricing"
+    ],
+    "order": 50,
+    "question": "Is there a long-term commitment?",
+    "answer": "No long-term commitment is required. Punch cards let you train on your own terms."
+  },
+  {
+    "id": "do-i-need-to-be-fit-before-i-join",
+    "pages": [
+      "home",
+      "faq",
+      "free-class"
+    ],
+    "order": 60,
+    "question": "Do I need to be fit before I join?",
+    "answer": "Not at all. We welcome every fitness level and scale each session to where you are today."
+  },
+  {
+    "id": "can-i-drop-in-for-a-single-workout",
+    "pages": [
+      "faq",
+      "pricing"
+    ],
+    "order": 70,
+    "question": "Can I drop in for a single workout?",
+    "answer": "Yes. Drop-ins are $20 per class. Buy a pass online and pick your class."
+  },
+  {
+    "id": "can-i-book-a-one-on-one-session",
+    "pages": [
+      "faq"
+    ],
+    "order": 80,
+    "question": "Can I book a one-on-one session?",
+    "answer": "Yes. Personal training is one-on-one coaching built around your goals."
+  },
+  {
+    "id": "how-is-helix-different-from-other-gyms",
+    "pages": [
+      "home",
+      "faq"
+    ],
+    "order": 90,
+    "question": "How is Helix different from other gyms?",
+    "answer": "Small classes, a coach who knows your name, programs designed with a Doctor of Physical Therapy, and a room where people actually cheer for each other."
+  },
+  {
+    "id": "what-should-i-bring-to-my-first-class",
+    "pages": [
+      "faq",
+      "free-class"
+    ],
+    "order": 100,
+    "question": "What should I bring to my first class?",
+    "answer": "Comfortable clothes you can move in, closed-toe shoes, and a water bottle."
+  },
+  {
+    "id": "what-happens-at-my-free-class",
+    "pages": [
+      "faq",
+      "free-class"
+    ],
+    "order": 110,
+    "question": "What happens at my free class?",
+    "answer": "You'll get a quick tour, meet your coach for a movement assessment and a chat about your history, then take the class. Afterward we go over your questions and membership options."
+  },
+  {
+    "id": "where-are-you-located",
+    "pages": [
+      "faq"
+    ],
+    "order": 120,
+    "question": "Where are you located?",
+    "answer": "2323 NW 9th St in Corvallis, in the same building as ToGo's Sandwich Shop."
+  },
+  {
+    "id": "can-i-pause-or-cancel-my-membership",
+    "pages": [
+      "faq",
+      "pricing"
+    ],
+    "order": 130,
+    "question": "Can I pause or cancel my membership?",
+    "answer": "Yes. Send us a message from the members page or the contact form and we'll take care of it."
+  }
+]

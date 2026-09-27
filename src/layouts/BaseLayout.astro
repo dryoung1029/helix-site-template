@@ -1,0 +1,134 @@
+---
+/**
+ * Site-wide layout. Every page gets: unique title/description, canonical URL,
+ * Open Graph + Twitter tags, the Organization/WebSite JSON-LD from the Domain
+ * Pack, fonts, analytics (only if configured), header and footer.
+ *
+ * Pages pass extra JSON-LD nodes (Article, FAQPage, BreadcrumbList) via `jsonLd`.
+ */
+import { organizationGraph, websiteGraph } from '@jeldon/schema-graph';
+import { pack } from '../lib/pack';
+import { site } from '../../site.config';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogType?: 'website' | 'article';
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>[];
+  robots?: string;
+  /** Hide the big free-class banner in the footer (e.g. on the free-class page). */
+  hideFooterCta?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogType = 'website',
+  ogImage = '/brand/og-default.jpg',
+  jsonLd = [],
+  robots,
+  hideFooterCta = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+
+const org = organizationGraph(pack) as Record<string, unknown>;
+if (site.hoursConfirmed) {
+  const dayNames: Record<string, string> = { Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday' };
+  const to24 = (t: string) => {
+    const m = t.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/i);
+    if (!m) return null;
+    let h = Number(m[1]) % 12;
+    if (m[3].toUpperCase() === 'PM') h += 12;
+    return `${String(h).padStart(2, '0')}:${m[2] ?? '00'}`;
+  };
+  const spec = Object.entries(site.hours)
+    .filter(([, v]) => v)
+    .map(([d, v]) => {
+      const [open, close] = String(v).split(/\s*[–-]\s*/);
+      const o = to24(open ?? ''), c = to24(close ?? '');
+      return o && c ? { '@type': 'OpeningHoursSpecification', dayOfWeek: dayNames[d], opens: o, closes: c } : null;
+    })
+    .filter(Boolean);
+  if (spec.length) org.openingHoursSpecification = spec;
+}
+const graph = [org, websiteGraph(pack), ...jsonLd];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {robots && <meta name="robots" content={robots} />}
+    {site.analytics.googleSiteVerification && (
+      <meta name="google-site-verification" content={site.analytics.googleSiteVerification} />
+    )}
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#008abd" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+    />
+
+    <script is:inline>
+      // Apply a saved theme before paint so there is no flash.
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+
+    {graph.map((node) => <script type="application/ld+json" set:html={JSON.stringify(node)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer hideCta={hideFooterCta} />
+
+    {site.analytics.cloudflareToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: site.analytics.cloudflareToken })}
+      />
+    )}
+    {site.analytics.ga4MeasurementId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.analytics.ga4MeasurementId}`} />
+        <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${site.analytics.ga4MeasurementId}',{anonymize_ip:true});`} />
+      </>
+    )}
+  </body>
+</html>

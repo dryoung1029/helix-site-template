@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProgramList from '../components/ProgramList.astro';
+import FaqList from '../components/FaqList.astro';
+import Reviews from '../components/Reviews.astro';
+import { site } from '../../site.config';
+import { getPrograms, getFaqsFor, getPublishedArticles, formatDate } from '../lib/content';
+import { faqJsonLd } from '../lib/seo';
+
+const programs = await getPrograms();
+const faqs = await getFaqsFor('home');
+const recent = (await getPublishedArticles()).slice(0, 3);
+const jsonLd = [faqJsonLd(faqs.map((f) => f.data))].filter(Boolean) as Record<string, unknown>[];
+
+const title = 'Strength Training Gym in Corvallis, OR';
+const description =
+  'Helix Training is a small-group strength and personal training gym in Corvallis, Oregon, owned by a Doctor of Physical Therapy. Coached classes for every level. Your first class is free.';
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="hero__where">Corvallis, Oregon</p>
+        <h1>Get strong with people who actually cheer for you.</h1>
+        <p class="lede">
+          Small classes. A written plan. Coaches who know your name, and programs designed with a Doctor of Physical Therapy.
+          Way more fun than it should be.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary btn--lg" href="/free-class/">Try a free class</a>
+          <a class="btn btn--ghost" href="/programs/">See the programs</a>
+        </div>
+        <p class="hero__note muted">No experience needed. No long-term commitment required.</p>
+      </div>
+      <div class="hero__mark" aria-hidden="true">
+        <svg viewBox="0 0 200 320" width="100%" height="100%" role="presentation">
+          <path d="M40 20 C 150 110, 50 210, 160 300" stroke="var(--red)" stroke-width="22" stroke-linecap="round" fill="none" />
+          <path d="M160 20 C 50 110, 150 210, 40 300" stroke="var(--blue)" stroke-width="22" stroke-linecap="round" fill="none" opacity="0.92" />
+          <g stroke="var(--salmon)" stroke-width="8" stroke-linecap="round" opacity="0.8">
+            <line x1="70" y1="70" x2="130" y2="70" />
+            <line x1="62" y1="250" x2="138" y2="250" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container pillars">
+      <div>
+        <h2>Supportive community</h2>
+        <p>Everyone knows your name and notices when you're not there. Fitness is a lot easier with people in your corner.</p>
+      </div>
+      <div>
+        <h2>Evidence-based programs</h2>
+        <p>Every class follows a progressive plan designed by experts, including a Doctor of Physical Therapy. You get stronger over months, not just tired for an hour.</p>
+      </div>
+      <div>
+        <h2>Welcoming to every body</h2>
+        <p>First-timers, busy professionals, people over 50, people coming back from injury. Our doors are open to anyone who wants to be their strongest self.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Every body is unique. Find the program that fits yours.</h2>
+        <p>Five ways to train, one coaching philosophy: learn to move well, lift well, and feel strong for the long haul.</p>
+      </div>
+      <ProgramList programs={programs} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <h2>Getting started is easy</h2>
+        <ol class="steps">
+          <li>
+            <h3>Book a free class</h3>
+            <p>Pick a time that works. Your first class is on us — a real workout, scaled to you.</p>
+          </li>
+          <li>
+            <h3>Meet your coach</h3>
+            <p>Come a few minutes early for a quick movement check and a conversation about your history and goals.</p>
+          </li>
+          <li>
+            <h3>Take the class</h3>
+            <p>About an hour of coached strength work. You'll leave knowing exactly what we do and whether it's for you.</p>
+          </li>
+        </ol>
+        <a class="btn btn--primary" href="/free-class/">Book your free class</a>
+      </div>
+      <div class="quote-block">
+        <blockquote>
+          <p>
+            We're more than a gym. We're a vibrant, fun-loving community that makes strength training an absolute blast — evidence-based programming, a hearty dose of encouragement, and a lot of laughter. With a Doctor of Physical Therapy at the helm, you get a perspective on fitness you won't find anywhere else.
+          </p>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <Reviews />
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <h2>Questions? We have answers.</h2>
+        <FaqList faqs={faqs} />
+        <p style="margin-top: var(--s1)"><a href="/faq/">More questions and answers</a></p>
+      </div>
+      <div>
+        <h2>Find us</h2>
+        <p>
+          <strong>{site.address.street}, {site.address.city}, {site.address.region} {site.address.postalCode}</strong><br />
+          {site.address.landmark}. Easy to reach from anywhere in Corvallis.
+        </p>
+        <p>
+          <a href={site.address.mapsUrl} target="_blank" rel="noopener">Get directions</a> ·{' '}
+          <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+        </p>
+        <iframe
+          src={site.address.mapsEmbedUrl}
+          width="100%"
+          height="280"
+          style="border:0; border-radius: var(--radius-lg)"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Map to Helix Training"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  {recent.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>From the coaches</h2>
+          <p>Plain-language answers to the questions we hear on the gym floor.</p>
+        </div>
+        <ul class="post-list">
+          {recent.map((a) => (
+            <li>
+              <h3><a href={`/blog/${a.id}/`}>{a.data.title}</a></h3>
+              <p class="muted">{a.data.excerpt}</p>
+              <small class="muted">{formatDate(a.data.publishDate)}</small>
+            </li>
+          ))}
+        </ul>
+        <p style="margin-top: var(--s1)"><a href="/blog/">All articles</a></p>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--s3);
+    overflow: hidden;
+  }
+  .hero__inner {
+    display: grid;
+    gap: var(--s2);
+    align-items: center;
+  }
+  @media (min-width: 52rem) {
+    .hero__inner {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+  .hero__where {
+    font-weight: 800;
+    color: var(--blue);
+    margin-bottom: var(--s-1);
+  }
+  .hero h1 {
+    max-width: 14ch;
+  }
+  .hero__note {
+    margin-top: var(--s0);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+  .hero__mark {
+    max-width: 18rem;
+    justify-self: center;
+    aspect-ratio: 200 / 320;
+  }
+  @media (max-width: 52rem) {
+    .hero__mark {
+      max-width: 9rem;
+      order: -1;
+      justify-self: start;
+      aspect-ratio: 200 / 320;
+    }
+  }
+  .pillars {
+    display: grid;
+    gap: var(--s1);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+  .pillars h2 {
+    font-size: var(--step-1);
+  }
+  .pillars p {
+    color: var(--fg-muted);
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--s1);
+    counter-reset: step;
+  }
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--s0);
+    padding: var(--s0) 0;
+    border-top: 1px solid var(--line);
+  }
+  .steps li::before {
+    content: counter(step);
+    font-weight: 800;
+    font-size: var(--step-2);
+    color: var(--blue);
+    line-height: 1;
+  }
+  .steps h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.2em;
+  }
+  .steps p {
+    margin: 0;
+    color: var(--fg-muted);
+  }
+  .quote-block blockquote {
+    margin: 0;
+    padding: var(--s1);
+    background: var(--blue-tint);
+    border-radius: var(--radius-lg);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .quote-block footer {
+    margin-top: var(--s0);
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    font-weight: 700;
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FaqList from '../components/FaqList.astro';
+import { site } from '../../site.config';
+import { getFaqsFor } from '../lib/content';
+import { crumbs, faqJsonLd } from '../lib/seo';
+
+const faqs = await getFaqsFor('pricing');
+const items = [{ name: 'Pricing', url: '/pricing/' }];
+const jsonLd = [crumbs(items), faqJsonLd(faqs.map((f) => f.data))].filter(Boolean) as Record<string, unknown>[];
+const planUrl = (key: string) => (site.pushpress.plans as Record<string, string>)[key] || '';
+---
+
+<BaseLayout
+  title="Membership Pricing"
+  description="Helix Training membership pricing in Corvallis: 8 or 12 coached classes a month, punch cards, and $20 drop-ins. Month to month, no long-term contract. First class free."
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <PageHeader
+      title="Pricing"
+      lede="No long-term commitment required. A membership gives you accountability and a consistent routine, which is the thing that actually produces results."
+    />
+
+    <div class="grid grid--3">
+      {site.pricing.map((p) => (
+        <div class={`card ${p.featured ? 'card--featured' : ''}`}>
+          {p.note && <p class="tag">{p.note}</p>}
+          <h2 style="font-size: var(--step-1)">{p.name}</h2>
+          <p class="price">{p.price} <small>{p.period}</small></p>
+          {planUrl(p.planKey) ? (
+            <a class={`btn ${p.featured ? 'btn--primary' : 'btn--blue'}`} href={planUrl(p.planKey)}>Sign up</a>
+          ) : (
+            <a class="btn btn--blue" href="/contact/">Ask about this plan</a>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <section class="section--tight" style="margin-top: var(--s2)">
+      <h2>Personal training and Strong Foundations</h2>
+      <p>
+        <a href="/programs/personal-training/">Personal training</a> is priced per session and in packages — send us a note and we'll walk you through it.
+        <a href="/programs/strong-foundations/">Strong Foundations</a>, our six-week beginner course, is $150.
+      </p>
+      <p><strong>Not sure yet?</strong> Your first class is free.</p>
+      <a class="btn btn--primary" href="/free-class/">Try a free class</a>
+    </section>
+
+    <section class="section--tight">
+      <h2>Questions about memberships</h2>
+      <FaqList faqs={faqs} />
+      <p style="margin-top: var(--s1)" class="muted">Current members: pause or cancel any time from the <a href="/members/">members page</a>.</p>
+    </section>
+  </div>
+</BaseLayout>

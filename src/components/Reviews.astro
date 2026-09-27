@@ -1,0 +1,28 @@
+---
+/**
+ * Google reviews. Until the owner supplies real reviews (or a widget), this
+ * shows the PushPress Grow review widget she already uses, lazily, inside an
+ * iframe so it never slows the page down.
+ */
+import { site } from '../../site.config';
+const widget = site.pushpress.grow.reviewWidgetUrl;
+---
+
+{widget && (
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>What members say</h2>
+      </div>
+      <iframe
+        src={widget}
+        title="Google reviews for Helix Training"
+        loading="lazy"
+        style="width:100%; min-height: 420px; border:0;"
+      ></iframe>
+      <p class="muted" style="margin-top: var(--s0); font-size: var(--step--1)">
+        Reviews don't load? <a href="https://www.google.com/maps/search/Helix+Training+Corvallis" target="_blank" rel="noopener">Read them on Google.</a>
+      </p>
+    </div>
+  </section>
+)}

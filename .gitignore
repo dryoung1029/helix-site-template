@@ -1,0 +1,25 @@
+# Build output
+dist/
+.astro/
+.wrangler/
+
+# Dependencies
+node_modules/
+
+# Secrets — never commit these
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# Reports and data drops (keep the folders, ignore the files)
+data/**
+!data/*/
+!data/*/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

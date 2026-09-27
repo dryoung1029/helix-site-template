@@ -1,0 +1,110 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FaqList from '../../components/FaqList.astro';
+import { getPrograms, type Program } from '../../lib/content';
+import { crumbs, faqJsonLd } from '../../lib/seo';
+import { site } from '../../../site.config';
+import { pack } from '../../lib/pack';
+
+export async function getStaticPaths() {
+  const programs = await getPrograms();
+  return programs.map((program) => ({ params: { slug: program.id }, props: { program } }));
+}
+
+const { program } = Astro.props as { program: Program };
+const d = program.data;
+const { Content } = await render(program);
+
+function signupHref(): string {
+  if (d.signupUrl) return d.signupUrl;
+  if (d.signupPlanKey) {
+    const url = (site.pushpress.plans as Record<string, string>)[d.signupPlanKey];
+    if (url) return url;
+  }
+  return '/contact/';
+}
+
+const items = [
+  { name: 'Programs', url: '/programs/' },
+  { name: d.name, url: `/programs/${program.id}/` },
+];
+const faqs = d.faqs.map((f) => ({ question: f.q, answer: f.a }));
+const serviceNode = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: d.name,
+  serviceType: 'Fitness training',
+  description: d.seoDescription ?? d.tagline,
+  provider: { '@id': `${pack.brand.siteUrl}/#organization` },
+  areaServed: 'Corvallis, OR',
+  url: `${pack.brand.siteUrl}/programs/${program.id}/`,
+  ...(d.price ? { offers: { '@type': 'Offer', priceCurrency: 'USD', description: d.price } } : {}),
+};
+const jsonLd = [crumbs(items), serviceNode, faqJsonLd(faqs)].filter(Boolean) as Record<string, unknown>[];
+---
+
+<BaseLayout title={d.seoTitle ?? `${d.name} in Corvallis, OR`} description={d.seoDescription ?? d.tagline} jsonLd={jsonLd}>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <header class="program-head">
+      <h1>{d.name}</h1>
+      <p class="lede">{d.tagline}</p>
+      <dl class="facts">
+        <div><dt>Who it's for</dt><dd>{d.audience}</dd></div>
+        {d.format && <div><dt>Format</dt><dd>{d.format}</dd></div>}
+        {d.duration && <div><dt>Length</dt><dd>{d.duration}</dd></div>}
+        {d.price && <div><dt>Price</dt><dd>{d.price}</dd></div>}
+      </dl>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href={signupHref()}>{d.signupLabel}</a>
+        <a class="btn btn--ghost" href="/contact/">Ask a question</a>
+      </div>
+    </header>
+
+    <div class="split">
+      <article class="prose">
+        <Content />
+      </article>
+      <aside>
+        {faqs.length > 0 && (
+          <>
+            <h2 style="font-size: var(--step-1)">Common questions</h2>
+            <FaqList faqs={faqs} />
+          </>
+        )}
+        <div class="notice" style="margin-top: var(--s1)">
+          <strong>Where:</strong> {site.address.street}, {site.address.city}. {site.address.landmark}.<br />
+          <a href="/schedule/">See the class schedule</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .program-head {
+    padding-block: var(--s1) var(--s2);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s2);
+  }
+  .program-head h1 {
+    font-size: var(--step-3);
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s0) var(--s2);
+    margin: var(--s0) 0 var(--s1);
+  }
+  .facts dt {
+    font-size: var(--step--1);
+    font-weight: 700;
+    color: var(--fg-muted);
+  }
+  .facts dd {
+    margin: 0;
+    font-weight: 700;
+  }
+</style>

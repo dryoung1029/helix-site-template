@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+const items = [{ name: 'Members', url: '/members/' }];
+---
+
+<BaseLayout title="Current Members" description="Links for current Helix Training members: the members app, class booking, and membership pause or cancellation requests." robots="noindex,follow" hideFooterCta>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <PageHeader title="Current members" lede="Everything you need in one place." />
+    <div class="grid grid--2">
+      <div class="card">
+        <h2 style="font-size: var(--step-1)">Book a class</h2>
+        <p>Reserve your spot in the calendar or the members app.</p>
+        <div class="btn-row">
+          <a class="btn btn--blue" href={site.pushpress.calendarUrl} target="_blank" rel="noopener">Open calendar</a>
+          {site.pushpress.memberApp.ios && <a class="btn btn--ghost" href={site.pushpress.memberApp.ios}>iPhone app</a>}
+          {site.pushpress.memberApp.android && <a class="btn btn--ghost" href={site.pushpress.memberApp.android}>Android app</a>}
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="font-size: var(--step-1)">Pause or cancel</h2>
+        <p>Life happens. Use the contact form and choose "Membership question", or email <a href={`mailto:${site.email}`}>{site.email}</a>. We'll take care of it, no hoops.</p>
+        <a class="btn btn--ghost" href="/contact/?subject=Membership%20question">Contact us</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

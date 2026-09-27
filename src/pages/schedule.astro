@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { fetchUpcomingClasses, isConfigured } from '../lib/pushpress';
+import { crumbs } from '../lib/seo';
+
+// Build-time fetch. If PUSHPRESS_API_KEY / PUSHPRESS_COMPANY_ID are set in the
+// build environment, the next 7 days render as plain HTML (fast, crawlable).
+// Otherwise the calendar embed below is the schedule.
+const env = { PUSHPRESS_API_KEY: process.env.PUSHPRESS_API_KEY, PUSHPRESS_COMPANY_ID: process.env.PUSHPRESS_COMPANY_ID };
+const classes = await fetchUpcomingClasses(env, 7);
+const live = isConfigured(env) && classes.length > 0;
+
+const tz = 'America/Los_Angeles';
+const dayKey = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: tz });
+const time = (d: Date) => d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: tz });
+const byDay = new Map<string, typeof classes>();
+for (const c of classes) {
+  const k = dayKey(c.start);
+  byDay.set(k, [...(byDay.get(k) ?? []), c]);
+}
+const items = [{ name: 'Schedule', url: '/schedule/' }];
+const builtAt = new Date().toLocaleString('en-US', { timeZone: tz, dateStyle: 'medium', timeStyle: 'short' });
+---
+
+<BaseLayout
+  title="Class Schedule"
+  description="Weekly class schedule for Helix Training in Corvallis, OR — group strength classes, Strength+ for over 50, and Strong Foundations. Book your spot online."
+  jsonLd={[crumbs(items)]}
+>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <PageHeader title="Class schedule" lede="Classes run about an hour. Book through the calendar so your coach knows you're coming. First class is free.">
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/free-class/">Book a free class</a>
+        <a class="btn btn--ghost" href={site.pushpress.calendarUrl} target="_blank" rel="noopener">Open the booking calendar</a>
+      </div>
+    </PageHeader>
+
+    {live ? (
+      <section class="section--tight">
+        <h2>This week</h2>
+        <p class="muted" style="font-size: var(--step--1)">Updated {builtAt}. Times are Pacific. Spots shown are as of the last update — the booking calendar is always current.</p>
+        {[...byDay.entries()].map(([day, rows]) => (
+          <div class="day">
+            <h3>{day}</h3>
+            <ul class="classes">
+              {rows.map((c) => (
+                <li>
+                  <span class="t">{time(c.start)} – {time(c.end)}</span>
+                  <span class="n">{c.title}</span>
+                  {c.spotsLeft !== null && <span class="s muted">{c.spotsLeft === 0 ? 'Full' : `${c.spotsLeft} spots`}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <p><a class="btn btn--blue" href={site.pushpress.calendarUrl} target="_blank" rel="noopener">Reserve a spot</a></p>
+      </section>
+    ) : null}
+
+    <section class="section--tight">
+      <h2>{live ? 'Full calendar and booking' : 'Weekly calendar'}</h2>
+      <iframe
+        src={`${site.pushpress.calendarUrl}?framed=1`}
+        style="width:100%; height: 1200px; border:0;"
+        loading={live ? 'lazy' : 'eager'}
+        title="Helix Training class calendar"
+      ></iframe>
+      <noscript>
+        <p><a href={site.pushpress.calendarUrl}>Open the class calendar</a></p>
+      </noscript>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .day {
+    margin-top: var(--s1);
+  }
+  .day h3 {
+    font-size: var(--step-1);
+    border-bottom: 2px solid var(--blue);
+    display: inline-block;
+    padding-bottom: 0.1em;
+  }
+  .classes {
+    list-style: none;
+    padding: 0;
+    margin: var(--s-1) 0 0;
+  }
+  .classes li {
+    display: grid;
+    grid-template-columns: 11rem 1fr auto;
+    gap: var(--s0);
+    padding: 0.5em 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .classes .t {
+    font-weight: 700;
+  }
+  @media (max-width: 40rem) {
+    .classes li {
+      grid-template-columns: 1fr;
+      gap: 0.15em;
+    }
+  }
+</style>

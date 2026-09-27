@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { crumbs } from '../lib/seo';
+const items = [{ name: 'About', url: '/about/' }];
+---
+
+<BaseLayout
+  title="About Helix Training"
+  description="Helix Training is a Corvallis strength gym built on one idea: strength training should be accessible and inclusive, coached with purpose, and adapted to the person — not the other way around."
+  jsonLd={[crumbs(items)]}
+>
+  <div class="container">
+    <Breadcrumbs items={items} />
+    <PageHeader title="Our mission is to help you succeed." />
+    <div class="prose">
+      <!-- SETUP: Kathy tells the origin story in the wizard (why she opened the gym, when, what she saw as a PT that led here). -->
+      <p>Helix Training exists because strength training should be accessible and inclusive. We believe in smart, results-driven training that adapts to the individual, not the other way around.</p>
+      <h2>What we're built on</h2>
+      <ul>
+        <li><strong>Community first.</strong> A welcoming space where every body is welcomed, respected, and supported.</li>
+        <li><strong>Intentional programming.</strong> Every session is coached with purpose, and every member is supported as a whole human.</li>
+        <li><strong>The long haul.</strong> We want you to move better, feel stronger, and show up more fully in your life — today and for decades.</li>
+      </ul>
+      <h2>What that looks like on the floor</h2>
+      <p>Small class sizes by design. Coaching that prioritizes learning and sustainable progress over exhaustion. Barriers to movement removed wherever we find them. And beyond the fitness: real relationships and whole-person health.</p>
+      <h2>Who runs it</h2>
+      <p>Helix is owned and led by <a href="/coaches/#kathy-lynch">Dr. Kathy Lynch, PT, DPT</a>, with a team of seven. Programs designed with a Doctor of Physical Therapy are the reason our classes feel different: the plan respects how bodies actually work.</p>
+      <p><a class="btn btn--primary" href="/free-class/">Come see for yourself</a></p>
+    </div>
+  </div>
+</BaseLayout>

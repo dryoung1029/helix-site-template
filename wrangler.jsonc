@@ -1,0 +1,20 @@
+// Cloudflare Workers config. The site is static files plus one tiny server
+// route (/api/contact). Cloudflare's git integration runs `npm run build` and
+// then `npx wrangler deploy` on every push to main.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "helix-training-site",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./dist/_worker.js/index.js",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true }
+  // Secrets (PUSHPRESS_API_KEY, PUSHPRESS_COMPANY_ID, BREVO_API_KEY,
+  // TURNSTILE_SECRET_KEY) are NOT here. They are set in the Cloudflare
+  // dashboard: Workers & Pages → helix-training-site → Settings → Variables
+  // and Secrets. The /setup wizard walks the owner through it.
+}
