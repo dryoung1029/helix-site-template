@@ -2,9 +2,11 @@
 
 So new pages look like they belong. Tokens live in `src/styles/global.css`.
 
+- **Logo and icons** are the owner's image files, never redrawn: header and
+  footer use `public/brand/logo-horizontal.webp`; the favicon and touch icon
+  are cropped from it. Don't recreate the mark in SVG or CSS.
 - **Colors.** Blue `#008abd` does the work (links, structure, secondary
-  buttons). Red `#ec222d` is spent once per page: the free-class button and
-  the helix mark. Charcoal text on white; dark mode is automatic and there's a
+  buttons). Red `#ec222d` is spent once per page: the free-class button. Charcoal text on white; dark mode is automatic and there's a
   toggle in the header.
 - **Type.** One family, Nunito (matches the logo's rounded letterforms).
   Weights: 400 body, 700 emphasis and nav, 800 headings. Size scale is fluid

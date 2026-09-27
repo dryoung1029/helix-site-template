@@ -24,7 +24,8 @@
     "traffic": "node scripts/traffic-report.mjs",
     "test:contact": "node scripts/test-contact.mjs",
     "photos": "node scripts/optimize-photos.mjs",
-    "deploy:cf": "node node_modules/wrangler/bin/wrangler.js deploy"
+    "deploy:cf": "node node_modules/wrangler/bin/wrangler.js deploy",
+    "icons": "node scripts/make-icons.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

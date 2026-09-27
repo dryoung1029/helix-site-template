@@ -45,7 +45,8 @@ the repo is the one she created in START-HERE.
    descriptive alt text (what's in the picture, who, doing what — no keyword
    stuffing).
 4. Place them — propose, don't ask about each:
-   - Home hero: the best wide shot of the floor with people in it.
+   - Home hero: the best wide shot of the floor with people in it →
+     `site.config.ts → heroPhoto` (src `/photos/<name>.webp`, alt).
    - Program pages (`heroImage` / `heroImageAlt` in each program file):
      the photo that matches the program.
    - Coaches (`photo` / `photoAlt` in each coach file): headshots or
@@ -65,3 +66,6 @@ the repo is the one she created in START-HERE.
 - If a photo shows a member's face, ask once: "Is everyone in this photo okay
   being on the website?" Skip any she's unsure about.
 - Keep originals; never delete her uploads.
+- The logo is always her image file. If she sends a new logo, replace
+  `public/brand/logo-horizontal.webp` and regenerate `favicon.png` and
+  `apple-touch-icon.png` from it (`npm run icons`). Never redraw it.

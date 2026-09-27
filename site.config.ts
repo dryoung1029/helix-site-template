@@ -30,6 +30,9 @@ export const site = {
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2841.268310037433!2d-123.25507732377324!3d44.59153737107317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54c03f7da42cefdd%3A0x6d13b9098c4ed448!2sHelix%20Training!5e0!3m2!1sen!2sus',
   },
 
+  /** Home-page hero photo. /photos fills this in; blank = text-only hero. */
+  heroPhoto: { src: '', alt: '' },
+
   /** SETUP: the wizard asks for these. Day keys are Mon–Sun; "" = not set / closed.
    *  Pages only show hours once `hoursConfirmed` is true. Until then they say
    *  "See the schedule for class times." */
